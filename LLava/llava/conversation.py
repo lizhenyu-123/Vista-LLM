@@ -391,8 +391,8 @@ conv_llava_llama_3 = Conversation(
     offset=0,
     sep="<|eot_id|>",
     sep_style=SeparatorStyle.LLAMA_3,
-    tokenizer_id="/data/lizy/model/Meta-Llama-3-8B-Instruct",
-    tokenizer=safe_load_tokenizer("/data/lizy/model/Meta-Llama-3-8B-Instruct"),
+    tokenizer_id="Meta-Llama-3-8B-Instruct",
+    tokenizer=safe_load_tokenizer("Meta-Llama-3-8B-Instruct"),
     stop_token_ids=[128009],
 )
 
