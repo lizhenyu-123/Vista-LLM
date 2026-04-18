@@ -24,9 +24,6 @@ from dataset.mvbench import MVBenchDataset, data_list, load_video_mvbench
 from utils.utils import load_preextracted_frames_and_meta
 
 def prepare_qwen_prompt(dataset_name, question, candidates, video_id=None, srt_path=None, frame_indices=None, original_fps=None):
-    """
-    根据不同的数据集构建对应的 Prompt。
-    """
     if dataset_name == 'videomme':
         subtitles_text = extract_subtitles_for_keyframes(frame_indices, original_fps, srt_path) if srt_path else None
         options_str = "\n".join([f"{opt}" for opt in candidates])
@@ -61,11 +58,7 @@ def prepare_qwen_prompt(dataset_name, question, candidates, video_id=None, srt_p
 
 
 def get_question_embedding(question, processor, model, device):
-    """
-    获取 Qwen2.5-VL 的问题句子级别的 Embedding
-    """
     question_ids = processor.tokenizer(question, return_tensors="pt").input_ids.to(device)
-    # Qwen2.5 语言模型的 embed_tokens 路径
     question_word_embeddings = model.model.language_model.embed_tokens(question_ids) 
     question_sentence_embedding = question_word_embeddings[0].mean(dim=0)
     return question_sentence_embedding
@@ -164,7 +157,6 @@ def generate(args):
                     continue
 
                 try:
-                    # --- 1. 视频/帧提取 ---
                     if args.use_preextracted_frames:
                         frames_dir = os.path.join(args.frames_root, args.task_type)
                         if args.dataset == 'mlvu':
@@ -266,7 +258,6 @@ def generate(args):
                 batch_end_time = time.time()
                 logging.info(f"Processed batch of size {len(valid_batch_samples)} in {batch_end_time - batch_start_time:.2f}s.")
 
-                # --- 6. 保存结果 ---
                 for i, output_text in enumerate(text_outputs):
                     sample = valid_batch_samples[i]
                     results.append({
@@ -350,7 +341,6 @@ if __name__ == '__main__':
     args.output_dir = os.path.join(base_out, folder_name)
     os.makedirs(args.output_dir, exist_ok=True)
 
-    # --- 设置日志 ---
     log_file_path = os.path.join(args.output_dir, f"run_log_{args.dataset}.txt")
     logging.basicConfig(
         level=logging.INFO,
