@@ -89,7 +89,7 @@ bash LLava/script/run_experiment_videomme.sh
 **For Qwen2.5-VL:**
 
 ```bash
-bash  Qwen/script/run_experiment_videomme.sh
+bash Qwen/script/run_experiment_videomme.sh
 ```
 
 ### 2. Evaluation
@@ -97,7 +97,8 @@ bash  Qwen/script/run_experiment_videomme.sh
 After generating the predictions, run the following evaluation script to calculate the final scores for various benchmarks:
 
 ```bash
-bash utils/evaluate_all.bash
+bash LLava/utils/evaluate_all.bash
+bash Qwen/utils/evaluate_all.bash
 ```
 
 ## 🏋️ Fine-tuning (Optional)
